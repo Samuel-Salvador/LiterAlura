@@ -4,7 +4,6 @@ import com.ONE.LiterAlura.DTO.SearchDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -46,10 +45,6 @@ public class Book {
 
     public List<Author> getAuthors() {
         return authors;
-    }
-
-    public void addAuthor(Author author) {
-        authors.add(author);
     }
 
     public List<String> getSummary() {

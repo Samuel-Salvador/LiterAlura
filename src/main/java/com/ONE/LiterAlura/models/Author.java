@@ -28,6 +28,13 @@ public class Author {
         return deathYear;
     }
 
+    public boolean isAliveIn(Integer year){
+        if(year <= deathYear && year >= birthYear){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return name;

@@ -1,17 +1,16 @@
 package com.ONE.LiterAlura.view;
 
-import com.ONE.LiterAlura.controllers.GutendexAPI;
 import com.ONE.LiterAlura.models.Book;
+import com.ONE.LiterAlura.services.AuthorService;
 import com.ONE.LiterAlura.services.BookService;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Menu {
 
-
    private static final Scanner scanner = new Scanner(System.in);
+
     public static void show(){
 
         String escolha;
@@ -33,10 +32,13 @@ public class Menu {
                     searchBookByTitle();
                     break;
                 case "2":
-                    System.out.println(BookService.getSearchedBooks());
+                    printAllSearchedBooks();
                     break;
                 case "3":
-                    getAllAuthors();
+                    printAllSearchedAuthors();
+                    break;
+                case "4":
+                    printAllSearchedAuthorsAlive();
                     break;
                 case "5":
                     searchBookByLanguage();
@@ -48,10 +50,22 @@ public class Menu {
         }while(!escolha.equals("0"));
     }
 
-    private static void getAllAuthors() {
-
-
+    private static void printAllSearchedBooks(){
+        System.out.println(BookService.getSearchedBooks());
     }
+
+    private static void printAllSearchedAuthors() {
+        System.out.println(AuthorService.getSearchedAuthors());
+    }
+
+    private static void printAllSearchedAuthorsAlive() {
+        System.out.print("Digite o ano que deseja pesquisar o autor: ");
+        Integer year = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Autores vivos em " + year + ":");
+        System.out.println(AuthorService.getSearchedAuthorsAliveIn(year));
+    }
+
 
     private static void searchBookByLanguage() {
         System.out.println("Digite a linguagem que deseja: (en), (pt) ...");
