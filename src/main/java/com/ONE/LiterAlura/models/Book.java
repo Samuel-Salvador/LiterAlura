@@ -3,6 +3,8 @@ package com.ONE.LiterAlura.models;
 import com.ONE.LiterAlura.DTO.SearchedBookDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
@@ -15,10 +17,11 @@ public class Book {
 
     private String title;
 
-    @OneToMany
-    private List<Author> authors ;
+    @ManyToOne
+    @Cascade(CascadeType.ALL)
+    private Author author ;
 
-    @Enumerated
+    @Enumerated(value = EnumType.STRING)
     private Language language;
 
     @JsonProperty("download_count")
@@ -28,9 +31,8 @@ public class Book {
     }
 
     public Book(SearchedBookDTO searchedBookDTODTO) {
-        this.id = searchedBookDTODTO.id();
         this.title = searchedBookDTODTO.title();
-        this.authors = searchedBookDTODTO.authors();
+        this.author = searchedBookDTODTO.authors().getFirst();
         this.language = Language.fromString(searchedBookDTODTO.languages().getFirst());
         this.downloadCount = searchedBookDTODTO.downloadCount();
     }
@@ -43,8 +45,8 @@ public class Book {
         return title;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
+    public Author getAuthor() {
+        return author;
     }
 
     public Language getLanguages() {
@@ -58,6 +60,6 @@ public class Book {
     @Override
     public String toString() {
         return "\n\tTítulo: " + title +
-                "\n\tAutores: " + authors.stream().map(Author::getName).toList();
+                "\n\tAutor: " + author.getName();
     }
 }

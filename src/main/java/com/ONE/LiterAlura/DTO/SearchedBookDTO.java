@@ -1,6 +1,7 @@
 package com.ONE.LiterAlura.DTO;
 
 import com.ONE.LiterAlura.models.Author;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public record SearchedBookDTO(
         String title,
         List<Author> authors,
         List<String> languages,
+        @JsonAlias("download_count")
         Integer downloadCount
 ) {
 }

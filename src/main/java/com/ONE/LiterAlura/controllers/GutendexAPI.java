@@ -4,6 +4,7 @@ import com.ONE.LiterAlura.DTO.SearchDTO;
 import com.ONE.LiterAlura.DTO.SearchedBookDTO;
 import com.ONE.LiterAlura.models.Book;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,6 +14,7 @@ import java.net.http.HttpResponse;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Controller
 public class GutendexAPI {
 
     private final HttpClient httpClient = HttpClient.newBuilder()

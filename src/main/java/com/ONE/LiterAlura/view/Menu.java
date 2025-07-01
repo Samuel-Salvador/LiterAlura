@@ -1,16 +1,26 @@
 package com.ONE.LiterAlura.view;
 
+import com.ONE.LiterAlura.controllers.AuthorController;
+import com.ONE.LiterAlura.controllers.BookController;
 import com.ONE.LiterAlura.models.Author;
 import com.ONE.LiterAlura.models.Book;
-import com.ONE.LiterAlura.services.AuthorService;
-import com.ONE.LiterAlura.services.BookService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class Menu {
 
    private static final Scanner scanner = new Scanner(System.in);
+
+   private static BookController bookController;
+   private static AuthorController authorController;
+
+    public Menu(BookController bookController, AuthorController authorController) {
+        Menu.bookController = bookController;
+        Menu.authorController = authorController;
+    }
 
     public static void show(){
 
@@ -53,12 +63,12 @@ public class Menu {
 
     private static void printAllSearchedBooks(){
         System.out.println("\nLivros: ");
-        BookService.getSearchedBooks().forEach(System.out::println);
+        bookController.getSearchedBooks().forEach(System.out::println);
     }
 
     private static void printAllSearchedAuthors() {
         System.out.println("\nAutores: ");
-        AuthorService.getSearchedAuthors().forEach(System.out::println);
+        authorController.getSearchedAuthors().forEach(System.out::println);
     }
 
     private static void printAllSearchedAuthorsAlive() {
@@ -66,7 +76,7 @@ public class Menu {
         Integer year = scanner.nextInt();
         scanner.nextLine();
 
-        List<Author> authorsAlive = AuthorService.getSearchedAuthorsAliveIn(year);
+        List<Author> authorsAlive = authorController.getSearchedAuthorsAliveIn(year);
         if(!authorsAlive.isEmpty()){
             System.out.println("\nAutores vivos em " + year + ":");
             authorsAlive.forEach(System.out::println);
@@ -77,18 +87,17 @@ public class Menu {
     private static void searchBookByLanguage() {
         System.out.println("\nDigite a linguagem que deseja: (sem acento)");
         String language = scanner.nextLine();
-        List<Book> filteredBookList = BookService.filterBooksByLanguage(language);
+        List<Book> filteredBookList = bookController.getFilteredBooksByLanguage(language);
         if(!filteredBookList.isEmpty()){
             System.out.println("\nLivros: ");
-            System.out.println(filteredBookList);
+            filteredBookList.forEach(System.out::println);
         }else System.out.println("Não há livros nesta língua, verifique se foi digitada corretamente");
     }
 
     private static void searchBookByTitle() {
         System.out.print("Digite o título do livro a ser buscado: ");
         String title = scanner.nextLine();
-        String correctTitle = title.replaceAll("\\s","%20");
-        Book book = BookService.getBookByTitle(correctTitle);
+        Book book = bookController.getBookByTitle(title);
         if(book != null){
             System.out.println( "\nLivro encontrado: \n" + book );
         } else System.out.println( "\nLivro não encontrado!" );

@@ -1,10 +1,9 @@
 package com.ONE.LiterAlura.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Author {
@@ -20,6 +19,9 @@ public class Author {
 
     @JsonProperty("death_year")
     private Integer deathYear;
+
+    @OneToMany(mappedBy = "author")
+    private List<Book> bookList;
 
     public Author() {
     }
