@@ -4,6 +4,7 @@ import com.ONE.LiterAlura.controllers.AuthorController;
 import com.ONE.LiterAlura.controllers.BookController;
 import com.ONE.LiterAlura.models.Author;
 import com.ONE.LiterAlura.models.Book;
+import com.ONE.LiterAlura.models.Language;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -88,8 +89,10 @@ public class Menu {
         System.out.println("\nDigite a linguagem que deseja: (sem acento)");
         String language = scanner.nextLine();
         List<Book> filteredBookList = bookController.getFilteredBooksByLanguage(language);
+        int numberOfBooks = filteredBookList.size();
+
         if(!filteredBookList.isEmpty()){
-            System.out.println("\nLivros: ");
+            System.out.println("\n"+numberOfBooks+" livros encontrados: ");
             filteredBookList.forEach(System.out::println);
         }else System.out.println("Não há livros nesta língua, verifique se foi digitada corretamente");
     }

@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import java.util.List;
-
 @Entity
 public class Book {
 
@@ -33,7 +31,9 @@ public class Book {
     public Book(SearchedBookDTO searchedBookDTODTO) {
         this.title = searchedBookDTODTO.title();
         this.author = searchedBookDTODTO.authors().getFirst();
-        this.language = Language.fromString(searchedBookDTODTO.languages().getFirst());
+        if(searchedBookDTODTO.languages().getFirst().length() == 2){
+            this.language = Language.valueOf(searchedBookDTODTO.languages().getFirst());
+        }else this.language = Language.fromString(searchedBookDTODTO.languages().getFirst());
         this.downloadCount = searchedBookDTODTO.downloadCount();
     }
 
@@ -49,7 +49,7 @@ public class Book {
         return author;
     }
 
-    public Language getLanguages() {
+    public Language getLanguage() {
         return this.language;
     }
 
@@ -59,7 +59,9 @@ public class Book {
 
     @Override
     public String toString() {
-        return "\n\tTítulo: " + title +
-                "\n\tAutor: " + author.getName();
+        return "\n\tTítulo: " + getTitle() +
+                "\n\tAutor: " + getAuthor().getName() +
+                "\n\tLíngua: " + getLanguage() +
+                "\n\tContagem de downloads: " + getDownloadCount();
     }
 }

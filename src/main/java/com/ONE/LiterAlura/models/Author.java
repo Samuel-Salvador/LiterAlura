@@ -20,14 +20,10 @@ public class Author {
     @JsonProperty("death_year")
     private Integer deathYear;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Book> bookList;
 
     public Author() {
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -53,6 +49,7 @@ public class Author {
     public String toString() {
         return "\n\tNome: "+name+
                 "\n\tAno de nascimento: "+birthYear+
-                "\n\tAno de morte: "+deathYear;
+                "\n\tAno de morte: "+deathYear +
+                "\n\tLivros: "+bookList.stream().map(Book::getTitle).toList();
     }
 }

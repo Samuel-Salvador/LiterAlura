@@ -2,6 +2,7 @@ package com.ONE.LiterAlura.services;
 
 import com.ONE.LiterAlura.controllers.GutendexAPI;
 import com.ONE.LiterAlura.models.Book;
+import com.ONE.LiterAlura.models.Language;
 import com.ONE.LiterAlura.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,12 +48,11 @@ public class BookService {
     }
 
     public List<Book> filterBooksByLanguage(String language){
-        if(language.length()>2){
-            return searchedBooks.stream()
-                    .filter(b-> b.getLanguages().getLanguage().equals(language.toLowerCase())).collect(Collectors.toList());
+        if(language.length() > 2){
+            return bookRepository.findBooksByLanguage(Language.fromString(language));
         } else if (language.length() == 2){
-            return searchedBooks.stream()
-                    .filter(b->b.getLanguages().toString().equals(language.toLowerCase())).collect(Collectors.toList());
+            return bookRepository.findBooksByLanguage(Language.valueOf(language));
         } else return Collections.emptyList();
     }
+
 }

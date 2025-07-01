@@ -12,8 +12,10 @@ import java.util.stream.Collectors;
 public class AuthorService {
 
     private final List<Author> searchedAuthors;
+    private final AuthorRepository authorRepository;
 
     public AuthorService(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
         this.searchedAuthors = authorRepository.findAll();
     }
 
@@ -26,7 +28,7 @@ public class AuthorService {
     }
 
     public List<Author> getSearchedAuthorsAliveIn(Integer year){
-        return searchedAuthors.stream().filter(a -> a.isAliveIn(year)).collect(Collectors.toList());
+        return authorRepository.findAuthorsWhoAreAliveIn(year);
     }
 
 }

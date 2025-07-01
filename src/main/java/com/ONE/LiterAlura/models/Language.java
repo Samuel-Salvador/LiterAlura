@@ -15,7 +15,7 @@ public enum Language {
 
     public static Language fromString(String language){
         for (Language type : values()){
-            if(language.equalsIgnoreCase(type.toString())){
+            if(language.equalsIgnoreCase(type.getLanguage())){
                 return type;
             }
         }
