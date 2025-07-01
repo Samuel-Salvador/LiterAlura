@@ -1,5 +1,6 @@
 package com.ONE.LiterAlura.view;
 
+import com.ONE.LiterAlura.models.Author;
 import com.ONE.LiterAlura.models.Book;
 import com.ONE.LiterAlura.services.AuthorService;
 import com.ONE.LiterAlura.services.BookService;
@@ -51,27 +52,34 @@ public class Menu {
     }
 
     private static void printAllSearchedBooks(){
-        System.out.println(BookService.getSearchedBooks());
+        System.out.println("\nLivros: ");
+        BookService.getSearchedBooks().forEach(System.out::println);
     }
 
     private static void printAllSearchedAuthors() {
-        System.out.println(AuthorService.getSearchedAuthors());
+        System.out.println("\nAutores: ");
+        AuthorService.getSearchedAuthors().forEach(System.out::println);
     }
 
     private static void printAllSearchedAuthorsAlive() {
         System.out.print("Digite o ano que deseja pesquisar o autor: ");
         Integer year = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Autores vivos em " + year + ":");
-        System.out.println(AuthorService.getSearchedAuthorsAliveIn(year));
+
+        List<Author> authorsAlive = AuthorService.getSearchedAuthorsAliveIn(year);
+        if(!authorsAlive.isEmpty()){
+            System.out.println("\nAutores vivos em " + year + ":");
+            authorsAlive.forEach(System.out::println);
+        }else System.out.println("Não há autores vivos neste ano!");
     }
 
 
     private static void searchBookByLanguage() {
-        System.out.println("Digite a linguagem que deseja: (en), (pt) ...");
+        System.out.println("\nDigite a linguagem que deseja: (sem acento)");
         String language = scanner.nextLine();
         List<Book> filteredBookList = BookService.filterBooksByLanguage(language);
         if(!filteredBookList.isEmpty()){
+            System.out.println("\nLivros: ");
             System.out.println(filteredBookList);
         }else System.out.println("Não há livros nesta língua, verifique se foi digitada corretamente");
     }
@@ -82,8 +90,8 @@ public class Menu {
         String correctTitle = title.replaceAll("\\s","%20");
         Book book = BookService.getBookByTitle(correctTitle);
         if(book != null){
-            System.out.println( "Livro encontrado: \n" + book );
-        } else System.out.println( "Livro não encontrado!" );
+            System.out.println( "\nLivro encontrado: \n" + book );
+        } else System.out.println( "\nLivro não encontrado!" );
 
     }
 }

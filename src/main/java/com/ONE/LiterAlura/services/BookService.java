@@ -4,6 +4,7 @@ import com.ONE.LiterAlura.controllers.GutendexAPI;
 import com.ONE.LiterAlura.models.Book;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +29,12 @@ public class BookService {
     }
 
     public static List<Book> filterBooksByLanguage(String language){
-        return searchedBooks.stream()
-                .filter(b-> b.getLanguages().contains(language)).collect(Collectors.toList());
+        if(language.length()>2){
+            return searchedBooks.stream()
+                    .filter(b-> b.getLanguages().getLanguage().equals(language.toLowerCase())).collect(Collectors.toList());
+        } else if (language.length() == 2){
+            return searchedBooks.stream()
+                    .filter(b->b.getLanguages().toString().equals(language.toLowerCase())).collect(Collectors.toList());
+        } else return Collections.emptyList();
     }
 }

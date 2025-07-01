@@ -1,9 +1,17 @@
 package com.ONE.LiterAlura.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-
+@Entity
 public class Author {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 
@@ -14,6 +22,10 @@ public class Author {
     private Integer deathYear;
 
     public Author() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -37,6 +49,8 @@ public class Author {
 
     @Override
     public String toString() {
-        return name;
+        return "\n\tNome: "+name+
+                "\n\tAno de nascimento: "+birthYear+
+                "\n\tAno de morte: "+deathYear;
     }
 }

@@ -1,24 +1,25 @@
 package com.ONE.LiterAlura.models;
 
-import com.ONE.LiterAlura.DTO.SearchDTO;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ONE.LiterAlura.DTO.SearchedBookDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class Book {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
+
+    @OneToMany
     private List<Author> authors ;
 
-    @JsonProperty("summaries")
-    private List<String> summary ;
-
-    private List<String> languages;
+    @Enumerated
+    private Language language;
 
     @JsonProperty("download_count")
     private Integer downloadCount;
@@ -26,13 +27,12 @@ public class Book {
     public Book() {
     }
 
-    public Book(SearchDTO searchDTO) {
-        this.id = searchDTO.results().getFirst().getId();
-        this.title = searchDTO.results().getFirst().getTitle();
-        this.authors = searchDTO.results().getFirst().getAuthors();
-        this.summary = searchDTO.results().getFirst().getSummary();
-        this.languages = searchDTO.results().getFirst().getLanguages();
-        this.downloadCount = searchDTO.results().getFirst().getDownloadCount();
+    public Book(SearchedBookDTO searchedBookDTODTO) {
+        this.id = searchedBookDTODTO.id();
+        this.title = searchedBookDTODTO.title();
+        this.authors = searchedBookDTODTO.authors();
+        this.language = Language.fromString(searchedBookDTODTO.languages().getFirst());
+        this.downloadCount = searchedBookDTODTO.downloadCount();
     }
 
     public Long getId() {
@@ -47,12 +47,8 @@ public class Book {
         return authors;
     }
 
-    public List<String> getSummary() {
-        return summary;
-    }
-
-    public List<String> getLanguages() {
-        return languages;
+    public Language getLanguages() {
+        return this.language;
     }
 
     public Integer getDownloadCount() {
@@ -61,8 +57,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Título: " + title +
-                "\nAutores: " + authors +
-                "\nSumário: " + summary  ;
+        return "\n\tTítulo: " + title +
+                "\n\tAutores: " + authors.stream().map(Author::getName).toList();
     }
 }

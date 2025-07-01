@@ -1,6 +1,7 @@
 package com.ONE.LiterAlura.controllers;
 
 import com.ONE.LiterAlura.DTO.SearchDTO;
+import com.ONE.LiterAlura.DTO.SearchedBookDTO;
 import com.ONE.LiterAlura.models.Book;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,7 +45,8 @@ public class GutendexAPI {
             try {
                 HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
                 SearchDTO searchDTO = objectMapper.readValue(httpResponse.body(), SearchDTO.class);
-                return Optional.of(new Book(searchDTO));
+                SearchedBookDTO sbDTO = searchDTO.results().getFirst();
+                return Optional.of(new Book(sbDTO));
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (NoSuchElementException ignored){}
